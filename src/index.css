@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer {
+  .container {
+    @apply mx-[7.5vw] lg:mx-[15vw];
+  }
+}
