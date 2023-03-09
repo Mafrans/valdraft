@@ -1,7 +1,12 @@
+import Router, { Route } from "preact-router";
+import { DraftPage } from "./pages/DraftPage";
+import { HomePage } from "./pages/HomePage";
+
 export function App() {
   return (
-    <div class="container my-20">
-      <h1 class="text-3xl">Hello world!</h1>
-    </div>
+    <Router>
+      <Route path="/" component={HomePage} />
+      <Route path="/draft/:id" component={DraftPage} />
+    </Router>
   );
 }
