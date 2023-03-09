@@ -3,9 +3,12 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "index.ts"
+    "start": "bun index.ts"
   },
   "devDependencies": {
     "bun-types": "^0.5.0"
+  },
+  "dependencies": {
+    "elysia": "^0.2.9"
   }
 }
