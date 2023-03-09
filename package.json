@@ -1,0 +1,12 @@
+{
+  "name": "valdraft",
+  "scripts": {
+    "postinstall": "bun --cwd client install && bun --cwd server install",
+    "dev:server": "bun dev --cwd=server",
+    "dev:client": "bun --cwd=client run dev",
+    "dev": "run-p dev:*"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

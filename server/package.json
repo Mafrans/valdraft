@@ -1,0 +1,11 @@
+{
+  "name": "valdraft-server",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "index.ts"
+  },
+  "devDependencies": {
+    "bun-types": "^0.5.0"
+  }
+}
