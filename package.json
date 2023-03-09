@@ -2,7 +2,7 @@
   "name": "valdraft",
   "scripts": {
     "postinstall": "bun --cwd client install && bun --cwd server install",
-    "dev:server": "bun --cwd=server run start",
+    "dev:server": "bun --cwd=server run dev",
     "dev:client": "bun --cwd=client run dev",
     "dev": "run-p dev:*"
   },
