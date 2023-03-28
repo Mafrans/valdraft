@@ -5,11 +5,13 @@ export type Team = {
   createdAt: number;
   name: string;
   shortCode?: string;
+  guest?: boolean;
 };
 
 type CreateTeamProps = {
   $name: string;
   $shortCode?: string;
+  $guest?: boolean;
 };
 
 type GetTeamByIdProps = {
@@ -21,11 +23,12 @@ type SearchTeamProps = {
 };
 
 export const CreateTeam = db.query<void, CreateTeamProps>(`
-  insert into Teams (id, createdAt, name, shortCode) values (
+  insert into Teams (id, createdAt, name, shortCode, guest) values (
     hex(randomblob(16)), 
     unixepoch(),
     $name,
-    $shortCode
+    $shortCode,
+    $guest
   );
 `);
 

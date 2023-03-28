@@ -16,6 +16,7 @@ db.run(`
     id text not null primary key,
     createdAt integer,
     name varchar(32) not null,
-    shortCode varchar(4)
+    shortCode varchar(4),
+    guest boolean
   );
 `);
