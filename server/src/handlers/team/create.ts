@@ -7,11 +7,11 @@ import { createTeamSchema } from "../../schemas/team/create";
 type CreateTeamBody = Static<typeof createTeamSchema.body>;
 
 export const handleCreateTeam: Handler = ({ body }) => {
-  const { name, shortCode, guest } = body as CreateTeamBody;
+  const { name, shortCode } = body as CreateTeamBody;
 
   return CreateTeam.get({
     $name: name,
     $shortCode: shortCode,
-    $guest: guest,
+    $guest: true,
   });
 };

@@ -1,4 +1,4 @@
-import { Hour } from "../utils/timeutils";
+import { Hour, UnixHour, unixNow } from "../utils/timeutils";
 import { db } from "./database";
 
 export type Session = {
@@ -22,6 +22,10 @@ type AddTeamToSessionProps = {
   $teamId: string;
 };
 
+type SessionExistsProps = {
+  $id: string;
+};
+
 type DeleteSessionProps = {
   $id: string;
 };
@@ -43,14 +47,19 @@ export const GetLatestSession = db.query<Session, {}>(`--sql
   select * from Sessions order by createdAt desc limit 1; 
 `);
 
-export const AddTeamToSession = db.query<void, AddTeamToSessionProps>(`--sql
+export const AddTeamToSession = db.query<Session, AddTeamToSessionProps>(`--sql
   update Sessions set
     blueTeamId = coalesce(blueTeamId, $teamId),
     redTeamId = case
       when blueTeamId is not null and redTeamId is null and blueTeamId != $teamId then $teamId
       else redTeamId
     end
-  where id = $id and (blueTeamId is null or redTeamId is null);
+  where id = $id and (blueTeamId is null or redTeamId is null)
+  returning *;
+`);
+
+export const SessionExists = db.query<boolean, SessionExistsProps>(`--sql
+  select COUNT(1) from Sessions where id = $id;
 `);
 
 export const DeleteSession = db.query<void, DeleteSessionProps>(`--sql
@@ -58,5 +67,5 @@ export const DeleteSession = db.query<void, DeleteSessionProps>(`--sql
 `);
 
 export function sessionIsExpired(session: Session) {
-  return Date.now() > session.createdAt + 24 * Hour;
+  return unixNow() > session.createdAt + 24 * UnixHour;
 }

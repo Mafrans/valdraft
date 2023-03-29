@@ -22,7 +22,7 @@ type SearchTeamProps = {
   $query: string;
 };
 
-export const CreateTeam = db.query<void, CreateTeamProps>(`--sql
+export const CreateTeam = db.query<Team, CreateTeamProps>(`--sql
   insert into Teams (id, createdAt, name, shortCode, guest) values (
     hex(randomblob(16)),
     unixepoch(),
