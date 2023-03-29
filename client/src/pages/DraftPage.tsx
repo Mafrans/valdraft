@@ -1,6 +1,6 @@
 import { useSession } from "../hooks/useSession";
 import { PrimaryLayout } from "../layouts/PrimaryLayout";
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { route } from "preact-router";
 import { useTeam } from "../hooks/useTeam";
 import { useAddGuestTeam } from "../hooks/useAddGuestTeam";
@@ -19,7 +19,19 @@ export function DraftPage({ id }: DraftPageProps) {
     if (sessionError) {
       route("/", true);
     }
+
+    if (
+      teamId &&
+      session?.blueTeamId !== teamId &&
+      session?.redTeamId !== teamId
+    ) {
+      setTeamId(undefined);
+    }
   }, [sessionError]);
+
+  const canAddTeam = useMemo(() => {
+    return !session?.blueTeamId || !session?.redTeamId;
+  }, [session?.blueTeamId, session?.redTeamId]);
 
   const handleAddGuestTeam = async (input: {
     name: string;
@@ -44,7 +56,7 @@ export function DraftPage({ id }: DraftPageProps) {
         </div>
       )}
 
-      {!teamId ? (
+      {canAddTeam && !teamId ? (
         <AddGuestTeamModal onAddGuestTeam={handleAddGuestTeam} />
       ) : null}
     </PrimaryLayout>
