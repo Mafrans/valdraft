@@ -1,3 +1,4 @@
+import cors from "@elysiajs/cors";
 import { Elysia } from "elysia";
 import { handleAddGuestTeamToSession } from "./handlers/session/addGuestTeam";
 import { handleAddTeamToSession } from "./handlers/session/addTeam";
@@ -15,6 +16,8 @@ import { searchTeamSchema } from "./schemas/team/search";
 const server = new Elysia();
 
 export async function start() {
+  server.use(cors());
+
   server.post("/session/create", handleCreateSession);
   server.get("/session/:id", handleGetSession, {
     schema: getSessionSchema,

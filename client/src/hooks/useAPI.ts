@@ -18,7 +18,7 @@ export async function apiFetch<T = any, K = any>(
     headers: {
       "Content-Type": "application/json",
     },
-    body: body && JSON.stringify(body),
+    body: body ? JSON.stringify(body) : "{}",
   });
 
   return res.json() as T;
