@@ -5,10 +5,12 @@ type TeamCardProps = {
 };
 
 export function TeamCard({ id }: TeamCardProps) {
-  const { data: team } = useTeam(id);
+  const { data: team, error } = useTeam(id);
 
-  if (!team) {
-    return null;
+  if (error) {
+    return <p class="text-red-600">{error}</p>;
+  } else if (!team) {
+    return <p>Loading...</p>;
   }
 
   return (

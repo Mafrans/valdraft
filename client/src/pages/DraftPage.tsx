@@ -51,7 +51,7 @@ export function DraftPage({ id }: DraftPageProps) {
 
   return (
     <PrimaryLayout>
-      <h1 class="text-3xl">Draft Page</h1>
+      <h1 class="text-3xl mb-8">Draft Page</h1>
       {session && (
         <div>
           <p>Draft ID: {session.id}</p>
