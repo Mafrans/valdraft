@@ -5,6 +5,7 @@ import { route } from "preact-router";
 import { useTeam } from "../hooks/useTeam";
 import { useAddGuestTeam } from "../hooks/useAddGuestTeam";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { TeamCard } from "../components/TeamCard";
 
 type DraftPageProps = {
   id: string;
@@ -15,11 +16,15 @@ export function DraftPage({ id }: DraftPageProps) {
   const addGuestTeam = useAddGuestTeam(id);
   const { data: session, error: sessionError } = useSession(id);
 
+  // If the session is not found, redirect to the home page
   useEffect(() => {
     if (sessionError) {
       route("/", true);
     }
+  }, [sessionError]);
 
+  // If we have a stored team ID, but it's not in the session, clear the team ID
+  useEffect(() => {
     if (
       teamId &&
       session?.blueTeamId !== teamId &&
@@ -27,7 +32,7 @@ export function DraftPage({ id }: DraftPageProps) {
     ) {
       setTeamId(undefined);
     }
-  }, [sessionError]);
+  }, [teamId, session?.blueTeamId, session?.redTeamId, setTeamId]);
 
   const canAddTeam = useMemo(() => {
     return !session?.blueTeamId || !session?.redTeamId;
@@ -55,6 +60,9 @@ export function DraftPage({ id }: DraftPageProps) {
           <p>Red team ID: {session.redTeamId}</p>
         </div>
       )}
+
+      {session?.blueTeamId ? <TeamCard id={session.blueTeamId} /> : null}
+      {session?.redTeamId ? <TeamCard id={session.redTeamId} /> : null}
 
       {canAddTeam && !teamId ? (
         <AddGuestTeamModal onAddGuestTeam={handleAddGuestTeam} />
